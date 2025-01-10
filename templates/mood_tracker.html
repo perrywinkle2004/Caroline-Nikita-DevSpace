@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        form {
+            margin: 20px auto;
+        }
+        select, input[type="date"] {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #e50914;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f40612;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            color: #fff;
+        }
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #e50914;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #e50914;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #f40612;
+        }
+    </style>
+</head>
+<body>
+    <h2>Mood Tracker</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                    <li style="color: red;">{{ message }}</li>
+                {% else %}
+                    <li style="color: green;">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="date" name="date" required><br>
+        <select name="mood">
+            <option value="happy">Happy</option>
+            <option value="neutral">Neutral</option>
+            <option value="sad">Sad</option>
+            <option value="anxious">Anxious</option>
+            <option value="angry">Angry</option>
+            <option value="scared">Scared</option>
+            <option value="stressed">Stressed</option>
+        </select><br><br>
+        <button type="submit">Save Mood</button>
+    </form>
+
+    <h3>Your Moods</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Mood</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mood in moods %}
+            <tr>
+                <td>{{ mood.date }}</td>
+                <td>{{ mood.mood }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
