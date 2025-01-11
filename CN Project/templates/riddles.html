@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riddles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414; /* Netflix black */
+            color: #ffffff; /* Netflix white */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5em;
+        }
+        .riddle-container {
+            margin-top: 50px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .riddle-container p {
+            font-size: 1.2em;
+        }
+        .refresh-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .refresh-btn:hover {
+            background-color: #f40612;
+        }
+    </style>
+</head>
+<body>
+    <h1>Riddle of the Day</h1>
+    <div class="riddle-container">
+        <p id="riddle">Loading...</p>
+        <button class="refresh-btn" onclick="fetchRiddle()">Get Another Riddle</button>
+    </div>
+    <script>
+        async function fetchRiddle() {
+            const riddleContainer = document.getElementById('riddle');
+            riddleContainer.textContent = 'Loading...';
+            try {
+                const response = await fetch('https://riddles-api.vercel.app/random');
+                const data = await response.json();
+                riddleContainer.textContent = data.riddle || 'No riddle found!';
+            } catch (error) {
+                riddleContainer.textContent = 'Oops! Failed to load a riddle.';
+            }
+        }
+        // Fetch a riddle on page load
+        fetchRiddle();
+    </script>
+</body>
+</html>
